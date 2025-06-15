@@ -13,7 +13,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
 # Функция для команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
@@ -29,7 +28,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup = InlineKeyboardMarkup(keyboard)
             await update.message.reply_text(
                 f"Привет, {user.first_name}! Ты подписан. Нажми кнопку, чтобы открыть плеер с аудиокнигами.",
-                reply_markup=reply_markup,
+                reply_markup=reply_markup
             )
         else:
             await update.message.reply_text(
@@ -41,7 +40,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Произошла ошибка. Попробуй позже или свяжись с поддержкой."
         )
 
-
 # Основная функция
 def main():
     # Создаём приложение
@@ -52,7 +50,6 @@ def main():
 
     # Запускаем бота
     application.run_polling(allowed_updates=Update.ALL_TYPES)
-
 
 if __name__ == "__main__":
     main()
