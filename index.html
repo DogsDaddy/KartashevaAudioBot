@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,28 +13,33 @@
             margin: 0;
             padding: 20px;
         }
+
         h1 {
             color: #333;
         }
+
         .book-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 20px;
             padding: 20px;
         }
+
         .book {
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 10px;
             text-align: center;
         }
+
         .book img {
             width: 100%;
             aspect-ratio: 1/1;
             object-fit: cover;
             border-radius: 5px;
         }
+
         .book p {
             margin: 10px 0 0;
             font-size: 14px;
@@ -41,6 +47,7 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Аудиокниги Карташевой</h1>
     <div class="book-grid">
@@ -120,6 +127,11 @@
             <img src="placeholder.jpg" alt="Обложка">
             <p>Простота вечности. Пробуждение</p>
         </div>
+        <div class="book">
+            <img src="placeholder.jpg" alt="Обложка">
+            <p>Ведьмина Кюля</p>
+        </div>
     </div>
 </body>
+
 </html>
