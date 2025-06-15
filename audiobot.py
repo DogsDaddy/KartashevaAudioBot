@@ -1,10 +1,11 @@
 import logging
-from telegram import Update
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 # Настройки бота
 BOT_TOKEN = "7851065276:AAH5lGU8QO2rMM0UBX35yqDFz7AH5LgvABQ"
 CHANNEL_ID = "-1002203758947"
+WEB_APP_URL = "https://dogsdaddy.github.io/KartashevaAudioBot"
 
 # Настройка логирования
 logging.basicConfig(
@@ -16,25 +17,23 @@ logger = logging.getLogger(__name__)
 # Функция для команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
-    await update.message.reply_text(
-        f"Привет, {user.first_name}! Это бот для аудиокниг Карташевой. "
-        "Чтобы получить доступ, подпишись на канал! Напиши /check, чтобы проверить подписку."
-    )
-
-
-# Функция проверки подписки
-async def check_subscription(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Проверяем подписку
     user_id = update.effective_user.id
     try:
-        # Проверяем статус подписки
         member = await context.bot.get_chat_member(chat_id=CHANNEL_ID, user_id=user_id)
         if member.status in ["member", "administrator", "creator"]:
+            # Создаём кнопку для мини-приложения
+            keyboard = [
+                [InlineKeyboardButton("Открыть плеер", web_app={"url": WEB_APP_URL})]
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
             await update.message.reply_text(
-                "Ты подписан! Скоро добавим доступ к аудиокнигам."
+                f"Привет, {user.first_name}! Ты подписан. Нажми кнопку, чтобы открыть плеер с аудиокнигами.",
+                reply_markup=reply_markup,
             )
         else:
             await update.message.reply_text(
-                "Ты не подписан на канал. Подпишись, чтобы получить доступ!"
+                "Ты не подписан на канал. Подпишись, чтобы получить доступ к аудиокнигам!"
             )
     except Exception as e:
         logger.error(f"Ошибка при проверке подписки: {e}")
@@ -48,9 +47,8 @@ def main():
     # Создаём приложение
     application = Application.builder().token(BOT_TOKEN).build()
 
-    # Добавляем обработчики команд
+    # Добавляем обработчик команды
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("check", check_subscription))
 
     # Запускаем бота
     application.run_polling(allowed_updates=Update.ALL_TYPES)
